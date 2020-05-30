@@ -11,7 +11,7 @@ export class UosProcessLauncher implements ProcessLauncher{
         this.processMemory = processMemory;
     }
 
-    getProcessByLabel(label: string): Process {
+    getProcessByLabel<T = TData>(label: string): Process<T> {
         const pid = this.processMemory[label];
         if(!pid){
             throw new ProcessError(`Process with label ${label} does not exist`);
@@ -24,12 +24,12 @@ export class UosProcessLauncher implements ProcessLauncher{
         return !!this.processMemory[label];
     }
 
-    launchProcess(label: string, programName: string, data: TJSON): void {
+    launchProcess<T>(label: string, programName: string, data: T): void {
         if(this.isProcessRunning(label)){
             throw new ProcessError(`Process with label ${label} is already running`);
         }
         const processFactory = new UosProcessFactory();
-        const process = processFactory.createProcess(makeId(), data, DEFAULT_PRIORITY, this.pid);
+        const process = processFactory.createProcess<T>(makeId(), data, DEFAULT_PRIORITY, this.pid || null, programName);
         this.processMemory[label] = process.pid;
     }
 

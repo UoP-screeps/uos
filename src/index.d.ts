@@ -18,7 +18,8 @@ interface UOS {
 
 interface ProcessMemory{
     priority: number;
-    data: TData,
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    data: any,
     processes: {
         [label: string]: string
     };

@@ -3,20 +3,30 @@ type TData = {[key: string]: TJSON};
 
 interface Kernel extends ProcessLauncher{
     run(): void;
-    getProcessByPid(pid: string): Process;
+    getProcessByPid<T = TData>(pid: string): Process<T>;
 }
 
-interface Process extends ProcessLauncher{
+interface Process<T = TData> extends ProcessLauncher{
     priority: number;
-    readonly data: TData;
+    readonly data: { [P in keyof T]?: T[P] };
     readonly pid: string;
 
     terminate(): void;
-    run(): void;
+}
+
+interface ProcessLauncher {
+    launchProcess<T = TData>(label: string, programName: string, data: T): void;
+    isProcessRunning(label: string): boolean;
+    getProcessByLabel<T = TData>(label: string): Process<T>;
 }
 
 interface Program {
     run(this: Process): void;
+}
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+interface RunnableProcess extends Process<any>{
+    run(): void;
 }
 
 interface ProgramConstructor{
@@ -24,11 +34,5 @@ interface ProgramConstructor{
 }
 
 interface ProcessFactory {
-    createProcess(pid: string, data?: TData, priority?: number, parent?: string | null): Process;
-}
-
-interface ProcessLauncher {
-    launchProcess(label: string, programName: string, data: TData): void;
-    isProcessRunning(label: string): boolean;
-    getProcessByLabel(label: string): Process;
+    createProcess<T = TData>(pid: string, data?: T, priority?: number, parent?: string | null): RunnableProcess;
 }
