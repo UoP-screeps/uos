@@ -1,24 +1,24 @@
 import { UosKernel } from "../Kernel";
 import { resetGameAndMemory } from "../../../test/mock";
-import {assert} from "chai";
+import { assert } from "chai";
 import {
     clearProgramIndex,
     makeCountingProgram,
     makeDeletingProgram,
-    makeDummyProgram,
-    makeLaunchingProgram
+    makeDummyProgram, makeHighPriorityProgram,
+    makeLaunchingProgram, makeLowPriorityProgram, makeMidPriorityProgram, resetTestProgramRunCount, testProgramRunCount
 } from "./TestUtils";
 import { ProcessError } from "../ProcessError";
 
 resetGameAndMemory();
 
-describe("Kernel", function() {
-    beforeEach(function() {
+describe("Kernel", function () {
+    beforeEach(function () {
         resetGameAndMemory();
         clearProgramIndex();
     });
 
-    it("should successfully get a process by id", function() {
+    it("should successfully get a process by id", function () {
         const kernel: Kernel = new UosKernel();
         makeDummyProgram("testProgram");
         kernel.launchProcess("test", "testProgram", {});
@@ -26,7 +26,7 @@ describe("Kernel", function() {
         assert.deepStrictEqual(kernel.getProcessByPid(process.pid), process);
     });
 
-    it("should run kernel processes", function() {
+    it("should run kernel processes", function () {
         makeCountingProgram("dummy");
         const kernel = new UosKernel();
         kernel.launchProcess("test", "dummy", {});
@@ -35,7 +35,7 @@ describe("Kernel", function() {
         assert.strictEqual(process.data.a, 1);
     });
 
-    it("should be able to recover a process next tick", function() {
+    it("should be able to recover a process next tick", function () {
         makeDummyProgram("dummy");
         const kernel0 = new UosKernel();
         kernel0.launchProcess("test", "dummy", {});
@@ -45,7 +45,7 @@ describe("Kernel", function() {
         assert.deepStrictEqual(process1, process0);
     });
 
-    it("should run non-kernel processes ", function() {
+    it("should run non-kernel processes ", function () {
         makeCountingProgram("counting");
         const kernel = new UosKernel();
         kernel.launchProcess("test", "counting", {});
@@ -56,7 +56,7 @@ describe("Kernel", function() {
         assert.strictEqual(process1.data.a, 1);
     });
 
-    it("should run added process", function() {
+    it("should run added process", function () {
         makeCountingProgram("launched");
         makeLaunchingProgram("launching");
         const kernel = new UosKernel();
@@ -67,7 +67,7 @@ describe("Kernel", function() {
         assert.strictEqual(process1.data.a, 1);
     });
 
-    it("should not run deleted process", function() {
+    it("should not run deleted process", function () {
         makeCountingProgram("deleted");
         makeDeletingProgram("deleting");
         const kernel = new UosKernel();
@@ -79,7 +79,7 @@ describe("Kernel", function() {
         assert.strictEqual(process1.data.a, undefined);
     });
 
-    it("should not get deleted processes id", function() {
+    it("should not get deleted processes id", function () {
         makeCountingProgram("deleted");
         makeDeletingProgram("deleting");
         const kernel = new UosKernel();
@@ -88,12 +88,12 @@ describe("Kernel", function() {
         process0.launchProcess("test", "deleted", {});
         const process1 = process0.getProcessByLabel("test");
         kernel.run();
-        assert.throw(function() {
+        assert.throw(function () {
             kernel.getProcessByPid(process0.pid);
-        }, ProcessError )
+        }, ProcessError);
     });
 
-    it("should not get deleted processes label", function() {
+    it("should not get deleted processes label", function () {
         makeCountingProgram("deleted");
         makeDeletingProgram("deleting");
         const kernel = new UosKernel();
@@ -102,8 +102,26 @@ describe("Kernel", function() {
         process0.launchProcess("test", "deleted", {});
         const process1 = process0.getProcessByLabel("test");
         kernel.run();
-        assert.throw(function() {
+        assert.throw(function () {
             kernel.getProcessByLabel("test");
-        }, ProcessError )
+        }, ProcessError);
+    });
+
+    it("should run tasks with higher priority first", function() {
+        makeLowPriorityProgram("low");
+        makeMidPriorityProgram("mid");
+        makeHighPriorityProgram("high");
+        let kernel = new UosKernel();
+        kernel.launchProcess("low", "low", {});
+        const low = kernel.getProcessByLabel("low");
+        kernel.launchProcess("mid", "mid", {});
+        const mid = kernel.getProcessByLabel("mid");
+        kernel.launchProcess("high", "high", {});
+        const high = kernel.getProcessByLabel("high");
+        kernel.run(); // let kernel run once to set priority;
+        resetTestProgramRunCount();
+        kernel = new UosKernel();
+        kernel.run();
+        assert.deepStrictEqual([low.data.a, mid.data.a, high.data.a], [2, 1, 0])
     });
 });

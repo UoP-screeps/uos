@@ -48,7 +48,6 @@ class CircularArrayIterator<T> implements Iterator<T> {
     }
 }
 
-
 function increment(n: number, total: number): number {
     return n >= total - 1 ? 0 : n + 1;
 }

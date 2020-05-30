@@ -1,12 +1,12 @@
-type TJSON = string | null | number | boolean | TJSON[] | object | {[key: string]: TJSON};
-type TData = {[key: string]: TJSON};
+type TJSON = string | null | number | boolean | TJSON[] | object | { [key: string]: TJSON };
+type TData = { [key: string]: TJSON };
 
-interface Kernel extends ProcessLauncher{
+interface Kernel extends ProcessLauncher {
     run(): void;
     getProcessByPid<T = TData>(pid: string): Process<T>;
 }
 
-interface Process<T = TData> extends ProcessLauncher{
+interface Process<T = TData> extends ProcessLauncher {
     priority: number;
     readonly data: { [P in keyof T]?: T[P] };
     readonly pid: string;
@@ -25,11 +25,11 @@ interface Program {
 }
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-interface RunnableProcess extends Process<any>{
+interface RunnableProcess extends Process<any> {
     run(): void;
 }
 
-interface ProgramConstructor{
+interface ProgramConstructor {
     new (): Program;
 }
 

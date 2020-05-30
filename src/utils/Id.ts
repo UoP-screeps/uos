@@ -20,17 +20,17 @@ function idToBase64Str(id: number): string {
         idStringArray[i] = range[id % BASE];
         id = Math.floor(id / BASE);
     }
-    const processedArray = insertSeparators(idStringArray, 3, '-');
+    const processedArray = insertSeparators(idStringArray, 3, "-");
     return processedArray.join("");
 }
 
 function insertSeparators(input: string[], interval: number, separator: string): string[] {
     const outputArray: string[] = [];
-    input.map(((value, index) => {
-        if(index > 0 && index % interval === 0){
+    input.map((value, index) => {
+        if (index > 0 && index % interval === 0) {
             outputArray.push(separator);
         }
         outputArray.push(value);
-    }));
+    });
     return outputArray;
 }

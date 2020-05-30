@@ -1,6 +1,6 @@
 interface Memory {
     id: number;
-    logger: number
+    logger: number;
 }
 
 interface Memory {
@@ -13,21 +13,23 @@ interface UOS {
     };
     processes: {
         [pid: string]: ProcessMemory;
-    }
+    };
+    queue: string[];
+
 }
 
-interface ProcessMemory{
+interface ProcessMemory {
     priority: number;
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    data: any,
+    data: any;
     processes: {
-        [label: string]: string
+        [label: string]: string;
     };
     parent: string | null;
     programName: string;
 }
 
-declare namespace NodeJS{
+declare namespace NodeJS {
     interface Global {
         kernel: Kernel;
         Logger: ILogger;
