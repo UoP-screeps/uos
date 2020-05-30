@@ -21,7 +21,7 @@ interface ProcessLauncher {
 }
 
 interface Program {
-    run(this: Process): void;
+    run(process: Process): void;
 }
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */

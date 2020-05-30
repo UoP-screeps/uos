@@ -5,8 +5,12 @@ import {
     clearProgramIndex,
     makeCountingProgram,
     makeDeletingProgram,
-    makeDummyProgram, makeHighPriorityProgram,
-    makeLaunchingProgram, makeLowPriorityProgram, makeMidPriorityProgram, resetTestProgramRunCount, testProgramRunCount
+    makeDummyProgram,
+    makeHighPriorityProgram,
+    makeLaunchingProgram,
+    makeLowPriorityProgram,
+    makeMidPriorityProgram,
+    resetTestProgramRunCount
 } from "./TestUtils";
 import { ProcessError } from "../ProcessError";
 
@@ -86,7 +90,6 @@ describe("Kernel", function () {
         kernel.launchProcess("test", "deleting", {});
         const process0 = kernel.getProcessByLabel("test");
         process0.launchProcess("test", "deleted", {});
-        const process1 = process0.getProcessByLabel("test");
         kernel.run();
         assert.throw(function () {
             kernel.getProcessByPid(process0.pid);
@@ -100,14 +103,13 @@ describe("Kernel", function () {
         kernel.launchProcess("test", "deleting", {});
         const process0 = kernel.getProcessByLabel("test");
         process0.launchProcess("test", "deleted", {});
-        const process1 = process0.getProcessByLabel("test");
         kernel.run();
         assert.throw(function () {
             kernel.getProcessByLabel("test");
         }, ProcessError);
     });
 
-    it("should run tasks with higher priority first", function() {
+    it("should run tasks with higher priority first", function () {
         makeLowPriorityProgram("low");
         makeMidPriorityProgram("mid");
         makeHighPriorityProgram("high");
@@ -122,6 +124,6 @@ describe("Kernel", function () {
         resetTestProgramRunCount();
         kernel = new UosKernel();
         kernel.run();
-        assert.deepStrictEqual([low.data.a, mid.data.a, high.data.a], [2, 1, 0])
+        assert.deepStrictEqual([low.data.a, mid.data.a, high.data.a], [2, 1, 0]);
     });
 });

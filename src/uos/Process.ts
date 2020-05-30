@@ -41,16 +41,16 @@ export class UosProcess<T = TData> extends UosProcessLauncher implements Runnabl
 
     run(): void {
         // terminate if parent has terminated
-        if(this.memory.parent){
-            try{
+        if (this.memory.parent) {
+            try {
                 global.kernel.getProcessByPid(this.memory.parent);
-            }catch (e) {
+            } catch (e) {
                 this.memory.parent = null;
                 this.terminate();
                 return;
             }
         }
-        this.program.run.call(this);
+        this.program.run(this);
     }
 
     terminate(): void {

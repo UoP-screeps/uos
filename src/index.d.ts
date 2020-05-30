@@ -15,7 +15,6 @@ interface UOS {
         [pid: string]: ProcessMemory;
     };
     queue: string[];
-
 }
 
 interface ProcessMemory {

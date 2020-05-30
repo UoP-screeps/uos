@@ -34,16 +34,16 @@ export class UosKernel extends UosProcessLauncher implements Kernel {
         };
     }
 
-    private static clearProcessQueue(): void{
+    private static clearProcessQueue(): void {
         Memory.uos.queue.length = 0;
     }
 
     private runAllProcesses(): void {
-        Memory.uos.queue = _.sortBy(_.keys(Memory.uos.processes), value => {
-            return - Memory.uos.processes[value].priority;
+        Memory.uos.queue = _.sortBy(_.keys(Memory.uos.processes), (value) => {
+            return -Memory.uos.processes[value].priority;
         });
         let pid;
-        while((pid = Memory.uos.queue.shift())){
+        while ((pid = Memory.uos.queue.shift())) {
             const process = this.getProcessByPid(pid);
             process.run();
         }

@@ -33,56 +33,54 @@ export function makeHighPriorityProgram(programName: string) {
 }
 
 class Dummy implements Program {
-    run(this: Process): void {
+    run(process: Process): void {
         return;
     }
 }
 
 class Counting implements Program {
-    run(this: Process<{ a: number }>): void {
-        this.data.a = this.data.a || 0;
-        this.data.a++;
+    run(process: Process<{ a: number }>): void {
+        process.data.a = process.data.a || 0;
+        process.data.a++;
     }
 }
 
 class Launching implements Program {
-    run(this: Process): void {
-        this.launchProcess("test", "launched", {});
+    run(process: Process): void {
+        process.launchProcess("test", "launched", {});
     }
 }
 
 class Deleting implements Program {
-    run(this: Process): void {
-        this.terminate();
+    run(process: Process): void {
+        process.terminate();
     }
 }
 
-export let testProgramRunCount = 0;
-export function resetTestProgramRunCount(){
+let testProgramRunCount = 0;
+export function resetTestProgramRunCount() {
     testProgramRunCount = 0;
 }
-class LowPriority implements Program{
-    run(this: Process): void {
-        this.priority = 0;
-        this.data.a = testProgramRunCount;
-        testProgramRunCount ++;
+class LowPriority implements Program {
+    run(process: Process): void {
+        process.priority = 0;
+        process.data.a = testProgramRunCount;
+        testProgramRunCount++;
     }
 }
 
-class MidPriority implements Program{
-    run(this: Process): void {
-        this.priority = 6;
-        this.data.a = testProgramRunCount;
-        testProgramRunCount ++;
+class MidPriority implements Program {
+    run(process: Process): void {
+        process.priority = 6;
+        process.data.a = testProgramRunCount;
+        testProgramRunCount++;
     }
 }
 
-class HighPriority implements Program{
-    run(this: Process): void {
-        this.priority = 12;
-        this.data.a = testProgramRunCount;
-        testProgramRunCount ++;
+class HighPriority implements Program {
+    run(process: Process): void {
+        process.priority = 12;
+        process.data.a = testProgramRunCount;
+        testProgramRunCount++;
     }
 }
-
-
