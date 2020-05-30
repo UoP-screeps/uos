@@ -45,9 +45,16 @@ export class SaveMemory implements Program{
 ProgramIndex.registerProgram("saveMemory", SaveMemory);
 ```
 
+## 设置优先级
+`this.priority`
+（没有实装，暂时改了没有效果）
+
 ## 启动新的进程
 可以通过 `this.launchProcess` 函数来启动新的进程
 
 ## 检查是否进程已经启动
-通过 `this.getProcess` 函数来取得一个子进程，或者通过 `this.isProcessRunning` 来检查子进程是否还在运行。
+通过 `this.isProcessRunning` 来检查子进程是否还在运行。
+
+## 获取一个子进程
+`this.getProcessByLabel` 可以获取指定label的子进程
 
