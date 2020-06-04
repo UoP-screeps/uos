@@ -24,7 +24,7 @@ export class UosProcess<T = TData> extends UosProcessLauncher implements Runnabl
         if (this.memory === undefined) {
             throw new ProcessError(`Process ${pid} is not running`);
         }
-        this.program = new ProgramIndex[this.memory.programName]();
+        this.program = new ProgramIndex[this.memory.programName](this);
     }
 
     get priority(): number {

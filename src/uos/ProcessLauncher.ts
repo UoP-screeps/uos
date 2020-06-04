@@ -3,7 +3,7 @@ import { UosProcessFactory } from "./ProcessFactory";
 import { makeId } from "../utils/Id";
 import { DEFAULT_PRIORITY } from "./Consts";
 
-export class UosProcessLauncher implements ProcessLauncher {
+export abstract class UosProcessLauncher implements ProcessLauncher {
     readonly pid?: string;
     private readonly processMemory: { [label: string]: string };
 

@@ -51,3 +51,8 @@ interface Log {
     level: number;
     time: number;
 }
+
+type Storable = Creep | PowerCreep | Ruin | StructureContainer | StructureExtension | StructureFactory |
+    StructureLab | StructureLink | StructureNuker | StructurePowerSpawn | StructureSpawn | StructureStorage |
+    StructureTerminal | StructureTower | Tombstone
+

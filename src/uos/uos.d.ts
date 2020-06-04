@@ -30,7 +30,7 @@ interface RunnableProcess extends Process<any> {
 }
 
 interface ProgramConstructor {
-    new (): Program;
+    new (process: Process): Program;
 }
 
 interface ProcessFactory {
