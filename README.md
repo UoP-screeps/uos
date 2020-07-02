@@ -1,73 +1,25 @@
 # uos
-车架子。目标：容易扩展，容易修改各层逻辑的结构。
+UOP 合作bot。
+任何能见到此代码库的人均可参与开发及使用此库的代码。
 
-TODO: 运输，全局管理，房间管理
+## 分工组织
+**【重要！！】**修改此库代码之前必须先在下方表格中占坑，如果存在多人修改同一模块或同一文件，请磋商协调**避免merge失败**。
+1. 如果你新建表格中没有的功能，则新增一行
+2. 如果你修改表格中已有功能，请在对应行的【参与者】中加上自己
+3. 如果你结束某一功能的修改（包括**修改完成**或者**弃坑**），请在对应行的【参与者】中删去自己
+4. 新建模块最好在docs中新建自己的markdown文件描述具体功能与接口，并把链接放在表格中【设计文档】栏，修改模块也要同步更新设计文档
 
-## 写一个程序
-写一个program，比如
-```typescript
-import {ProgramIndex} from "../uos/ProgramIndex"
-export class HelloWorld implements Program{
-    run(process: Process){
-        Logger.log("Hello world");
-    }
-}
-ProgramIndex.registerProgram("hello", HelloWorld);
-```
-`ProgramIndex.registerProgram` 函数用于把程序保存到一个固定的名字。 
+功能名称|设计文档|涉及文件|参与者
+:-|:-|:-|:-
+（示例）进程调度|[process.md](docs/process.md)|kernel.ts, main.ts|abc
 
-然后同时在 `program/import.ts` 文件里添加这个文件。
-每个tick都会执行 `run` 函数里面的内容。
 
-## 结束一个进程
-使用 `process.terminate()` 来结束一个进程
-```typescript
-import {ProgramIndex} from "../uos/ProgramIndex"
-export class Terminate implements Program{
-    run(process: Process){
-        process.terminate();
-    }
-}
-ProgramIndex.registerProgram("terminate", Terminate);
-```
-注意，所有子进程也会被结束。
+（示例仅指明格式，不作为有效条目）
 
-## 储存信息
-可以通过 `process.data` 获得每个进程单独的永久记忆。
-```typescript
-import {ProgramIndex} from "../uos/ProgramIndex"
-export class SaveMemory implements Program{
-    run(process: Process){
-        process.data.x = 1;
-        process.data.y = {
-            f: 1
-        }
-    }
-}
-ProgramIndex.registerProgram("saveMemory", SaveMemory);
-```
-也可以用generic来表示data的类型
-```typescript
-import {ProgramIndex} from "../uos/ProgramIndex"
-export class SaveMemory implements Program{
-    run(process: Process<{a: number}>){
-        process.data.a = 1;
-    }
-}
-ProgramIndex.registerProgram("saveMemory", SaveMemory);
-```
+## 设计思路
+UOS 全程 UoP Operating System，以操作系统的架构开发 Screeps AI，以**进程**的概念封装和管理不同功能，使得不同功能（不同进程）尽量解耦合，方便理解与多人开发。
 
-## 设置优先级
-`process.priority`
+详细说明xxxxx
 
-优先级高的进程会靠前执行。
 
-## 启动新的进程
-可以通过 `process.launchProcess` 函数来启动新的进程。在这个tick就会立刻执行。
-
-## 检查是否进程已经启动
-通过 `process.isProcessRunning` 来检查子进程是否还在运行。
-
-## 获取一个子进程
-`process.getProcessByLabel` 可以获取指定label的子进程
 
