@@ -13,8 +13,8 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "allowSyntheticDefaultImports": true,
-    "allowUnreachableCode": false
-	"allowJS": true
+    "allowUnreachableCode": false,
+    "allowJs": true
   },
   "exclude": [
     "node_modules"
