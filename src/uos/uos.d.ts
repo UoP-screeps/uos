@@ -3,6 +3,7 @@ type TData = { [key: string]: TJSON };
 
 interface Kernel extends ProcessLauncher {
     run(): void;
+
     getProcessByPid<T = TData>(pid: string): Process<T>;
 }
 
@@ -16,7 +17,9 @@ interface Process<T = TData> extends ProcessLauncher {
 
 interface ProcessLauncher {
     launchProcess<T = TData>(label: string, programName: string, data: T): void;
+
     isProcessRunning(label: string): boolean;
+
     getProcessByLabel<T = TData>(label: string): Process<T>;
 }
 
@@ -30,7 +33,7 @@ interface RunnableProcess extends Process<any> {
 }
 
 interface ProgramConstructor {
-    new (process: Process): Program;
+    new(process: Process): Program;
 }
 
 interface ProcessFactory {

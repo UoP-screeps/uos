@@ -58,9 +58,11 @@ class Deleting implements Program {
 }
 
 let testProgramRunCount = 0;
+
 export function resetTestProgramRunCount() {
     testProgramRunCount = 0;
 }
+
 class LowPriority implements Program {
     run(process: Process): void {
         process.priority = 0;

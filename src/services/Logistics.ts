@@ -1,6 +1,7 @@
-export class UosLogistics implements Logistics{
+export class UosLogistics implements Logistics {
     private readonly setLevels: SetLevels;
-    constructor(){
+
+    constructor() {
         Memory.services.logistics = Memory.services.logistics || {};
         Memory.services.logistics.setLevels = Memory.services.logistics.setLevels || {};
         this.setLevels = Memory.services.logistics.setLevels;

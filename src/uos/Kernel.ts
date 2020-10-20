@@ -4,6 +4,7 @@ import { UosProcessLauncher } from "./ProcessLauncher";
 
 export class UosKernel extends UosProcessLauncher implements Kernel {
     private readonly processes: { [pid: string]: RunnableProcess };
+
     constructor() {
         if (!Memory.uos) {
             UosKernel.initializeMemory();

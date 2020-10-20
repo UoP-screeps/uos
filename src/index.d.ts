@@ -41,8 +41,11 @@ type LoggerLevel = {
 
 interface ILogger {
     Level: LoggerLevel;
+
     log(message: string, level?: number): void;
+
     showLogs(filter?: (log: Log) => boolean): void;
+
     setLevel(level?: number): void;
 }
 

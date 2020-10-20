@@ -1,34 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 "use strict";
-
-import clear from 'rollup-plugin-clear';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from 'rollup-plugin-typescript2';
-import buble      from 'rollup-plugin-buble';
-import multiEntry from '@rollup/plugin-multi-entry';
-import nodent from 'rollup-plugin-nodent';
+import buble from "rollup-plugin-buble";
+import clear from "rollup-plugin-clear";
+import commonjs from "@rollup/plugin-commonjs";
+import multiEntry from "@rollup/plugin-multi-entry";
+import nodent from "rollup-plugin-nodent";
+import resolve from "@rollup/plugin-node-resolve";
+import typescript from "rollup-plugin-typescript2";
 
 export default {
-  input: 'test/integration/**/*.test.ts',
+  input: "test/integration/integration.test.ts",
   output: {
-    file: 'dist/test-integration.bundle.js',
-    name: 'lib',
+    file: "dist/test-integration.bundle.js",
+    name: "lib",
     sourcemap: true,
-    format: 'iife',
+    format: "iife",
     globals: {
-      chai: 'chai',
-      it: 'it',
-      describe: 'describe'
+      chai: "chai",
+      it: "it",
+      describe: "describe"
     }
   },
-  external: ['chai', 'it', 'describe'],
+  external: ["chai", "it", "describe"],
   plugins: [
     clear({ targets: ["dist/test.bundle.js"] }),
     resolve(),
-    commonjs(),
-    typescript({tsconfig: "./tsconfig.test-integration.json"}),
+    commonjs({
+      include: /node_modules/,
+      namedExports: {
+        "node_modules/lodash/index.js": ["get", "set", "each"]
+      }
+    }),
+    typescript({ tsconfig: "./tsconfig.test-integration.json" }),
     nodent(),
     multiEntry(),
     buble()
   ]
-}
+};

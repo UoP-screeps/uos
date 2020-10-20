@@ -1,6 +1,7 @@
 export class CircularArray<T> implements Iterable<T> {
     private readonly arr: T[];
     private curr: number;
+
     constructor(size: number) {
         this.arr = new Array(size);
         this.curr = 0;
