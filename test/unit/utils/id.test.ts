@@ -1,5 +1,5 @@
-import { Game, Memory, resetGameAndMemory } from "../../../test/mock";
-import { makeId } from "../Id";
+import { Game, Memory, resetGameAndMemory } from "../../mock";
+import { makeId } from "../../../src/utils/Id";
 import { assert } from "chai";
 
 resetGameAndMemory();

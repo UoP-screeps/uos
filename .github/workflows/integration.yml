@@ -31,5 +31,5 @@ jobs:
             ${{ runner.os }}-node-
       - run: npm install
       - run: npm run build
-      - run: npx rollup -c rollup.uos-integration-config.js -i uos/integration/${{ matrix.uos }}.uos.ts
-      - run: npx mocha dist/uos-integration.bundle.js
+      - run: npx rollup -c rollup.test-integration-config.js -i test/integration/${{ matrix.uos }}.test.ts
+      - run: npx mocha dist/test-integration.bundle.js
