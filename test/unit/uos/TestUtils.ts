@@ -1,4 +1,4 @@
-import { ProgramIndex, registerProgram } from "../ProgramIndex";
+import { ProgramIndex, registerProgram } from "../../../src/uos/ProgramIndex";
 
 export function clearProgramIndex() {
     _.keys(ProgramIndex).forEach((key) => delete ProgramIndex[key]);

@@ -7,7 +7,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
-const { ScreepsServer, stdHooks } = require("screeps-server-mockup");
+
+
+const ScreepsServerMockup = require("screeps-server-mockup");
+const ScreepsServer: MockedServerConstructor = ScreepsServerMockup.ScreepsServer;
+const stdHooks: StdHooks = ScreepsServerMockup.stdHooks;
+
 
 /*
  * Helper class for creating a ScreepsServer and resetting it between tests.
@@ -15,16 +20,16 @@ const { ScreepsServer, stdHooks } = require("screeps-server-mockup");
  * manipulating the terrain and game state.
  */
 export class IntegrationTestHelper {
-    private _server: any;
+    private _server?: MockedServer;
 
     get server() {
-        return this._server;
+        return this._server!;
     }
 
-    private _player: any;
+    private _player?: MockedUser;
 
     get player() {
-        return this._player;
+        return this._player!;
     }
 
     set player(player) {
@@ -41,7 +46,7 @@ export class IntegrationTestHelper {
     }
 
     async afterEach() {
-        await this._server.stop();
+        await this._server!.stop();
     }
 }
 

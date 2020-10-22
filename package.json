@@ -65,6 +65,8 @@
     "expect.js": "^0.3.1",
     "grunt": "^1.1.0",
     "grunt-screeps": "^1.4.0",
-    "source-map": "~0.6.1"
+    "reflect-metadata": "^0.1.13",
+    "source-map": "~0.6.1",
+    "typescript-ioc": "^3.2.2"
   }
 }

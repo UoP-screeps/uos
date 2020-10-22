@@ -59,3 +59,4 @@ type Storable = Creep | PowerCreep | Ruin | StructureContainer | StructureExtens
     StructureLab | StructureLink | StructureNuker | StructurePowerSpawn | StructureSpawn | StructureStorage |
     StructureTerminal | StructureTower | Tombstone
 
+type Constructor<T = any, U extends [] = []> = (...params: U) => T;

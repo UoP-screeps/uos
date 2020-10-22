@@ -1,5 +1,5 @@
-import { UosKernel } from "../Kernel";
-import { resetGameAndMemory } from "../../../test/mock";
+import { UosKernel } from "../../../src/uos/Kernel";
+import { resetGameAndMemory } from "../../mock";
 import { assert } from "chai";
 import {
     clearProgramIndex,
@@ -12,7 +12,7 @@ import {
     makeMidPriorityProgram,
     resetTestProgramRunCount
 } from "./TestUtils";
-import { ProcessError } from "../ProcessError";
+import { ProcessError } from "../../../src/uos/ProcessError";
 
 resetGameAndMemory();
 

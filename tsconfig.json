@@ -9,14 +9,17 @@
     "sourceMap": true,
     "strict": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "allowJs": true
+    "allowJs": true,
+    "typeRoots": ["node_modules/@types", "types"]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "types"
   ]
 }
