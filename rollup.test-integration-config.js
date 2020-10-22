@@ -9,9 +9,9 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 
 export default {
-  input: "uos/integration/integration.uos.ts",
+  input: "test/integration/integration.test.ts",
   output: {
-    file: "dist/uos-integration.bundle.js",
+    file: "dist/test-integration.bundle.js",
     name: "lib",
     sourcemap: true,
     format: "iife",
@@ -23,7 +23,7 @@ export default {
   },
   external: ["chai", "it", "describe"],
   plugins: [
-    clear({ targets: ["dist/uos.bundle.js"] }),
+    clear({ targets: ["dist/test-integration.bundle.js"] }),
     resolve(),
     commonjs({
       include: /node_modules/,
@@ -31,9 +31,13 @@ export default {
         "node_modules/lodash/index.js": ["get", "set", "each"]
       }
     }),
-    typescript({ tsconfig: "./tsconfig.uos-integration.json" }),
+    typescript({ tsconfig: "./tsconfig.test-integration.json" }),
     nodent(),
     multiEntry(),
-    buble()
+    buble({
+      transforms: {
+        generator: false
+      }
+    })
   ]
 };

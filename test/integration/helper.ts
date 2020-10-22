@@ -39,27 +39,19 @@ export class IntegrationTestHelper {
     async beforeEach() {
         this._server = new ScreepsServer();
 
-        await this._server.world.reset();
+        await this.server.world.reset();
 
         // Start server
-        await this._server.start();
+        await this.server.start();
     }
 
     async afterEach() {
         await this._server!.stop();
     }
+
+    before() {
+        stdHooks.hookWrite();
+    }
 }
-
-beforeEach(async () => {
-    await helper.beforeEach();
-});
-
-afterEach(async () => {
-    await helper.afterEach();
-});
-
-before(() => {
-    stdHooks.hookWrite();
-});
 
 export const helper = new IntegrationTestHelper();
