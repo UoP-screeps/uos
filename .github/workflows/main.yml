@@ -7,12 +7,13 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [10.x, 12.x]
+        test: ["hello"]
 
     steps:
       - uses: actions/checkout@v2
@@ -33,3 +34,5 @@ jobs:
       - run: npm run build --if-present
       - run: npm run test-unit
       - run: npm run test-integration
+      - run: npx rollup -c rollup.test-integration-config.js -i test/integration/${{ matrix.test }}.test.ts
+      - run: npx mocha dist/test-integration.bundle.js

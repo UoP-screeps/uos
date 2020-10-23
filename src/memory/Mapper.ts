@@ -10,6 +10,6 @@ export default abstract class Mapper<T> {
 
 class MapperImpl<T> extends Mapper<T> {
     init(): void {
-        
+        // do nothing
     }
 }
