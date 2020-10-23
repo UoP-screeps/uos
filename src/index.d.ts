@@ -1,62 +1,8 @@
-interface Memory {
-    id: number;
-    logger: number;
-}
+type Optional<T> = T | undefined;
+type Nullable<T> = T | undefined | null;
+
+type TableType<T> = T & {$tableType: {new (...args: any[]):T}}
 
 interface Memory {
-    uos: UOS;
+    id?: number;
 }
-
-interface UOS {
-    kernelProcesses: {
-        [label: string]: string;
-    };
-    processes: {
-        [pid: string]: ProcessMemory;
-    };
-    queue: string[];
-}
-
-interface ProcessMemory {
-    priority: number;
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    data: any;
-    processes: {
-        [label: string]: string;
-    };
-    parent: string | null;
-    programName: string;
-}
-
-declare namespace NodeJS {
-    interface Global {
-        kernel: Kernel;
-        Logger: ILogger;
-    }
-}
-
-type LoggerLevel = {
-    [key in "ALL" | "FINEST" | "FINE" | "INFO" | "WARNING" | "ERROR" | "FATAL" | "OFF"]: number;
-};
-
-interface ILogger {
-    Level: LoggerLevel;
-
-    log(message: string, level?: number): void;
-
-    showLogs(filter?: (log: Log) => boolean): void;
-
-    setLevel(level?: number): void;
-}
-
-interface Log {
-    message: string;
-    level: number;
-    time: number;
-}
-
-type Storable = Creep | PowerCreep | Ruin | StructureContainer | StructureExtension | StructureFactory |
-    StructureLab | StructureLink | StructureNuker | StructurePowerSpawn | StructureSpawn | StructureStorage |
-    StructureTerminal | StructureTower | Tombstone
-
-type Constructor<T = any, U extends [] = []> = (...params: U) => T;
