@@ -1,7 +1,7 @@
 import { assert } from "chai";
 
 describe("example", () => {
-    it("should show something", function() {
-        assert.equal(1, 1);
+    it("Unit test", function() {
+        assert.isTrue(true);
     });
 });

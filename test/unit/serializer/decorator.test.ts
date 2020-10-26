@@ -1,10 +1,9 @@
 import { assert } from "chai";
-import { Table } from "../../../src/serializer/Decorator";
-import getPrototypeOf = Reflect.getPrototypeOf;
+import { $tableType, Persistent, TableType } from "../../../src/serializer/Decorator";
 
 describe("Title decorator", () => {
     const VALUE = "1";
-    @Table
+    @Persistent
     class A {
         a: string;
         constructor(v: string) {
@@ -13,7 +12,7 @@ describe("Title decorator", () => {
     }
     it("should generate a correct $tableType field for the object", function() {
         const a = new A(VALUE);
-        const rawA = (a as TableType<A>).$tableType;
+        const rawA = (a as TableType<A>)[$tableType];
         const rawConstructed = new rawA(VALUE);
         const plainObject = {
             a: VALUE
