@@ -3,11 +3,11 @@ import { assert } from "chai";
 
 describe("decorator", () => {
     it("should inject a class", function() {
-        abstract class Inf {
+        abstract class Interface {
             abstract getValue(): number;
         }
 
-        class Impl extends Inf {
+        class Implementation extends Interface {
             getValue(): number {
                 return 1;
             }
@@ -15,28 +15,28 @@ describe("decorator", () => {
 
         @OnlyInstantiableByContainer
         class ConstructorInjection {
-            private inf: Inf;
+            private interface: Interface;
 
-            constructor(@Inject inf: Inf) {
-                this.inf = inf;
+            constructor(@Inject inf: Interface) {
+                this.interface = inf;
             }
 
             getValue() {
-                return this.inf.getValue();
+                return this.interface.getValue();
             }
         }
 
         @OnlyInstantiableByContainer
         class FieldInjection {
             @Inject
-            private inf!: Inf;
+            private interface!: Interface;
 
             getValue() {
-                return this.inf.getValue();
+                return this.interface.getValue();
             }
         }
 
-        Container.configure({ bind: Inf, to: Impl },
+        Container.configure({ bind: Interface, to: Implementation },
             { bind: ConstructorInjection },
             { bind: FieldInjection }
         );

@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { helper } from "./helper";
 
-describe("main", () => {
+describe("mock server", () => {
     before(() => {
         helper.before();
     });
@@ -14,7 +14,7 @@ describe("main", () => {
         await helper.afterEach();
     });
 
-    it("test integration", async () => {
+    it("should tick time correctly", async () => {
         for (let i = 1; i < 10; i += 1) {
             assert.equal(await helper.server.world.gameTime, i);
             await helper.server.tick();
