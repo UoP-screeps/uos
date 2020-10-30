@@ -20,7 +20,7 @@ module.exports = {
     "forin": ["off"],
     "semi": ["warn"],
     "@typescript-eslint/interface-name-prefix": ["off"],
-    "@typescript-eslint/no-use-before-define": ["error", {"functions": false, "classes": false}],
+    "@typescript-eslint/no-use-before-define": ["error", {"functions": false, "classes": false, "enums": false}],
     "no-console": ["off"]
   }
 
