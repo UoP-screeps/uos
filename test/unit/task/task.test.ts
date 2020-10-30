@@ -2,15 +2,12 @@ import {assert} from "chai";
 import { TaskService } from "../../../src/task/service/TaskService";
 import { Container } from "typescript-ioc";
 import { TaskTypeConstant } from "../../../src/task/TaskConstants";
-import { AbstractTask } from "../../../src/task/entity/AbstractTask";
-import { Task } from "../../../src/task/Decorator";
+import { Task } from "../../../src/task/entity/Task";
 
 describe("task service", function() {
     it("should create a task", function() {
         const taskType = TaskTypeConstant.TEST_TASK;
-
-        @Task
-        class TestTask extends AbstractTask<typeof taskType> {
+        class TestTask extends Task<typeof taskType> {
             run(): void {
                 return;
             }

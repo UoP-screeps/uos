@@ -1,9 +1,9 @@
 import { TaskType } from "../TaskConstants";
-import { AbstractTask } from "../entity/AbstractTask";
+import { Task } from "../entity/Task";
 
 export abstract class TaskService {
-    abstract createTask<T extends TaskType>(taskType: T, parent?: string): AbstractTask<T>;
-    abstract createTaskByLabel<T extends TaskType>(taskType: T, label: string, parent?: string): AbstractTask<T>;
-    abstract getTask<T extends TaskType>(id: string): AbstractTask<T>;
-    abstract getTaskByLabel<T extends TaskType>(label: string) : AbstractTask<T> & {readonly label: string};
+    abstract createTask<T extends TaskType>(taskType: T, parent?: string): Task<T>;
+    abstract createTaskByLabel<T extends TaskType>(taskType: T, label: string, parent?: string): Task<T>;
+    abstract getTask<T extends TaskType>(id: string): Task<T>;
+    abstract getTaskByLabel<T extends TaskType>(label: string) : Task<T> & {readonly label: string};
 }

@@ -1,9 +1,9 @@
-import { AbstractTask } from "../AbstractTask";
+import { Task } from "../Task";
 import { TaskTypeConstant } from "../../TaskConstants";
 
 const type = TaskTypeConstant.SAMPLE_TASK;
 
-export class SampleTask extends AbstractTask<typeof type>{
+export class SampleTask extends Task<typeof type>{
 
     get type(): typeof type{
         return type;
