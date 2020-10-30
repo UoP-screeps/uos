@@ -1,21 +1,20 @@
 import { TaskType } from "../TaskConstants";
 import { makeId } from "../../utils/Id";
-import TaskController from "../TaskController";
-import { Container } from "typescript-ioc";
+import { TaskService } from "../TaskService";
+import { Inject } from "typescript-ioc";
 
 export abstract class Task<T extends TaskType = TaskType> {
-
-    private taskController: TaskController;
 
     private readonly _id: string;
 
     private readonly _label?: string;
 
+    @Inject
+    private readonly taskService!: TaskService;
+
     constructor(label?: string) {
         this._id = makeId();
         this._label = label;
-        this.taskController = Container.get(TaskController);
-        this.taskController.register(this);
     }
 
     get id(): string {
@@ -35,6 +34,14 @@ export abstract class Task<T extends TaskType = TaskType> {
     abstract run(): void;
 
     terminate(): void {
+        return;
+    }
+
+    suspend(): void {
+        return;
+    }
+
+    continue(): void {
         return;
     }
 }
