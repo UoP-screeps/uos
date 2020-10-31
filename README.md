@@ -9,5 +9,4 @@ UoP合作bot
 新的目标和需求在issues里面
 <https://github.com/UoP-screeps/uos/issues>
 
-也可以放到ZenHub上
-<https://app.zenhub.com/workspaces/uos-5f97700ce70d4f0021cf060f/board>
+以后可能开始用project来记录进度。
