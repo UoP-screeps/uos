@@ -2,46 +2,30 @@ import { Inject, Singleton } from "typescript-ioc";
 import { Task } from "./entity/Task";
 import { TaskType } from "./TaskConstants";
 import { TaskService } from "./TaskService";
+import TaskFactory from "./TaskFactory";
 
 @Singleton
 export default class TaskController {
     @Inject
     private taskService!: TaskService;
 
-    private readonly types: { [key in TaskType]?: Constructor<Task> };
+    @Inject
+    private taskFactory!: TaskFactory;
 
-    constructor() {
-        this.types = {};
-    }
-
-
-    register(type: Constructor<Task>): void {
-        const instance = new type();
-        const typeName = instance.type;
-        this.types[typeName] = type;
-    }
-
-    createTask<T extends TaskType>(taskType: T, parent?: string): Task<T>{
-        // TODO unimplemented
-        const taskConstructor = this.types[taskType];
-        if(taskConstructor == undefined) {
-            throw new Error();
-        }
-        return new (taskConstructor as Constructor<Task<T>>)();
+    createTask<T extends TaskType>(taskType: T, parent?: string): Task<T> {
+        const task = this.taskFactory.createTask(taskType, { parent });
+        this.taskService.create(task);
+        return task;
     }
     createTaskByLabel<T extends TaskType>(taskType: T, label: string, parent?: string): Task<T> {
-        // TODO unimplemented
-        const taskConstructor = this.types[taskType];
-        if(taskConstructor == undefined) {
-            throw new Error();
-        }
-        return new (taskConstructor as Constructor<Task<T>>)(label);
+        const task = this.taskFactory.createTask(taskType, { label, parent });
+        this.taskService.create(task);
+        return task;
     }
-    getTask<T extends TaskType>(id: string): Task<T> {
-        throw new Error();
+    getTask<T extends TaskType>(id: string): Nullable<Task<T>> {
+        return this.taskService.getById(id) as Nullable<Task<T>>;
     }
-    getTaskByLabel<T extends TaskType>(label: string) : Task<T> & {readonly label: string} {
-        throw new Error();
+    getTaskByLabel<T extends TaskType>(label: string, parent?: string): Nullable<Task<T> & { readonly label: string }> {
+        return this.taskService.getByLabel(label, parent) as Nullable<Task<T> & { readonly label: string }>;
     }
-
 }
