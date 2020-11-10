@@ -48,6 +48,11 @@ describe("TaskService", function() {
         taskService.reset();
     });
 
+    after(function() {
+        taskService.reset();
+        taskFactory.clear();
+    })
+
     it("should create a task, and can retrieve the task by id", function() {
         taskService.create(task1);
         const task = taskService.getById(task1.id);
@@ -91,5 +96,13 @@ describe("TaskService", function() {
         assert.doesNotThrow(function() {
             taskService.continue(task1.id);
         });
+    });
+
+    it("should run all active tasks", function() {
+        taskService.create(task1);
+        taskService.create(task2);
+        taskService.start(task1.id);
+        taskService.run();
+        assert.equal(runCount, 1);
     });
 });

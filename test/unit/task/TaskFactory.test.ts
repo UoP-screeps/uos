@@ -22,7 +22,11 @@ describe("TaskFactory", function() {
         }
 
         taskFactory.register(TestTask);
-    })
+    });
+
+    after(function() {
+        taskFactory.clear();
+    });
 
     it("should register a task and be able to create one of the type", function() {
         assert.exists(taskFactory.createTask(TaskType.TEST_TASK));
