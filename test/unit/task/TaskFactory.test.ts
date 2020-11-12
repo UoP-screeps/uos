@@ -4,13 +4,13 @@ import { TaskType } from "../../../src/task/TaskConstants";
 import TaskFactory from "../../../src/task/TaskFactory";
 import { assert } from "chai";
 
-describe("TaskFactory", function() {
+describe("TaskFactory", function () {
     const taskFactory = Container.get(TaskFactory);
-    before(function() {
+    before(function () {
         taskFactory.clear();
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
         class TestTask extends Task<TaskType.TEST_TASK> {
             run(): void {
                 return;
@@ -24,27 +24,28 @@ describe("TaskFactory", function() {
         taskFactory.register(TestTask);
     });
 
-    after(function() {
+    after(function () {
         taskFactory.clear();
     });
 
-    it("should register a task and be able to create one of the type", function() {
+    it("should register a task and be able to create one of the type", function () {
         assert.exists(taskFactory.createTask(TaskType.TEST_TASK));
     });
 
-    it("should clear the factory", function() {
+    it("should clear the factory", function () {
         const taskFactory = Container.get(TaskFactory);
         taskFactory.clear();
         assert.throws(function () {
-            taskFactory.createTask(TaskType.TEST_TASK)
+            taskFactory.createTask(TaskType.TEST_TASK);
         });
     });
 
-    it("should create a correct instance of Task", function() {
+    it("should create a correct instance of Task", function () {
         const parent = "parent";
         const label = "label";
         const task = taskFactory.createTask(TaskType.TEST_TASK, {
-            parent, label
+            parent,
+            label
         });
         assert.include(task, {
             parentId: parent,

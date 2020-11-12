@@ -5,14 +5,14 @@ import TaskFactory from "../../../src/task/TaskFactory";
 import { assert } from "chai";
 import { TaskDef } from "../../../src/task/Decorator";
 
-describe("Decorator", function() {
+describe("Decorator", function () {
     const taskFactory = Container.get(TaskFactory);
 
-    before(function() {
+    before(function () {
         taskFactory.clear();
     });
 
-    it("should register a task with TaskDef", function() {
+    it("should register a task with TaskDef", function () {
         @TaskDef
         class TestTask extends Task<TaskType.TEST_TASK> {
             run(): void {
@@ -24,12 +24,10 @@ describe("Decorator", function() {
             }
         }
 
-        assert.exists(taskFactory.createTask(TaskType.TEST_TASK))
+        assert.exists(taskFactory.createTask(TaskType.TEST_TASK));
     });
 
-    after(function() {
+    after(function () {
         taskFactory.clear();
     });
-
-
 });

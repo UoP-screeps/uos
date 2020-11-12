@@ -18,9 +18,8 @@ describe("Task", function () {
         start: "start",
         create: "create",
         suspend: "suspend",
-        terminate: "terminate",
-    }
-
+        terminate: "terminate"
+    };
 
     before(function () {
         snapshot = Container.snapshot(); // save current container state
@@ -42,16 +41,19 @@ describe("Task", function () {
                 }
 
                 getById(id: string): Nullable<Task> {
-                    if(id === parent) {
+                    if (id === parent) {
                         return parentTask;
                     }
-                    if(id == task.id) {
+                    if (id == task.id) {
                         return task;
                     }
                     return undefined;
                 }
 
                 getByLabel<T extends TaskType>(label: string, parent?: string): Nullable<Task<T>> {
+                    if(label === task.label && parent === parentTask.id) {
+                        return task as Task<T>;
+                    }
                     throw Error();
                 }
 
@@ -85,10 +87,6 @@ describe("Task", function () {
                         called = calledConst.terminate;
                     }
                 }
-
-                getChild<T extends TaskType>(parent: string, label: string): Optional<Task<T>> {
-                    return undefined;
-                }
             }
         );
 
@@ -106,7 +104,7 @@ describe("Task", function () {
             get type(): TaskType.TEST_TASK {
                 return TaskType.TEST_TASK;
             }
-        })({ label, parent});
+        })({ label, parent });
     });
 
     beforeEach(function () {
@@ -154,23 +152,27 @@ describe("Task", function () {
         assert.equal(called, calledConst.continue);
     });
 
-    it("should create a child task", function() {
+    it("should create a child task", function () {
         const childLabel = "child";
         const childTask = task.create(TaskType.TEST_TASK, childLabel);
-        assert.include(childTask, {
-            parent:task,
-            parentId: task.id,
-            label: childLabel,
-            type: TaskType.TEST_TASK
-        }, "Incorrect childTask parameters");
+        assert.include(
+            childTask,
+            {
+                parent: task,
+                parentId: task.id,
+                label: childLabel,
+                type: TaskType.TEST_TASK
+            },
+            "Incorrect childTask parameters"
+        );
         assert.equal(called, calledConst.create);
     });
 
-    it("should get a child by label", function() {
+    it("should get a child by label", function () {
         assert.equal(parentTask.getChild(label), task);
     });
 
-    it("should be able to communicate by events", function() {
+    it("should be able to communicate by events", function () {
         const eventType = "event";
         let called = false;
         task.listen(parentTask).on(eventType, () => {
