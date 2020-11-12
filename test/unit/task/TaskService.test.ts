@@ -12,9 +12,9 @@ describe("TaskService", function() {
 
     let runCount = 0;
 
-    const task1Label = "l1";
-    const task2Label = "l2";
-    let task1: Task<TaskType.TEST_TASK>, task2: Task<TaskType.TEST_TASK>;
+    const parentTaskLabel = "l1";
+    const childTaskLabel = "l2";
+    let parentTask: Task<TaskType.TEST_TASK>, childTask: Task<TaskType.TEST_TASK>;
 
     before(function() {
         taskService.reset();
@@ -30,12 +30,12 @@ describe("TaskService", function() {
             }
         }
 
-        task1 = taskFactory.createTask(TaskType.TEST_TASK, {
-            label: task1Label
+        parentTask = taskFactory.createTask(TaskType.TEST_TASK, {
+            label: parentTaskLabel
         });
-        task2 = taskFactory.createTask(TaskType.TEST_TASK, {
-            parent: task1.id,
-            label: task2Label
+        childTask = taskFactory.createTask(TaskType.TEST_TASK, {
+            parent: parentTask.id,
+            label: childTaskLabel
         });
 
     });
@@ -54,55 +54,61 @@ describe("TaskService", function() {
     })
 
     it("should create a task, and can retrieve the task by id", function() {
-        taskService.create(task1);
-        const task = taskService.getById(task1.id);
-        assert.equal(task, task1);
+        taskService.create(parentTask);
+        const task = taskService.getById(parentTask.id);
+        assert.equal(task, parentTask);
     });
 
     it("should create a task, and can retrieve the task by label", function() {
-        taskService.create(task1);
-        const task = taskService.getByLabel(task1.label!);
-        assert.equal(task, task1);
+        taskService.create(parentTask);
+        const task = taskService.getByLabel(parentTask.label!);
+        assert.equal(task, parentTask);
     });
 
     it("should start a task", function() {
-        taskService.create(task1);
-        taskService.start(task1.id);
-        assert.isTrue(taskService.isRunning(task1.id));
+        taskService.create(parentTask);
+        taskService.start(parentTask.id);
+        assert.isTrue(taskService.isRunning(parentTask.id));
     });
 
     it("should terminate a task and its child tasks", function() {
-        taskService.create(task1);
-        taskService.create(task2);
-        taskService.start(task1.id);
-        taskService.start(task2.id);
-        taskService.terminate(task1.id);
-        assert.isFalse(taskService.isRunning(task1.id) || taskService.isRunning(task2.id));
+        taskService.create(parentTask);
+        taskService.create(childTask);
+        taskService.start(parentTask.id);
+        taskService.start(childTask.id);
+        taskService.terminate(parentTask.id);
+        assert.isFalse(taskService.isRunning(parentTask.id) || taskService.isRunning(childTask.id));
         assert.throws(function() {
-            taskService.start(task1.id);
+            taskService.start(parentTask.id);
         });
         assert.throws(function() {
-            taskService.start(task2.id);
+            taskService.start(childTask.id);
         });
     });
 
     it("should suspend a task properly", function() {
-        taskService.create(task1);
-        taskService.create(task2);
-        taskService.start(task1.id);
-        taskService.start(task2.id);
-        taskService.suspend(task1.id);
-        assert.deepEqual([taskService.isRunning(task1.id), taskService.isRunning(task2.id)], [false, true]);
+        taskService.create(parentTask);
+        taskService.create(childTask);
+        taskService.start(parentTask.id);
+        taskService.start(childTask.id);
+        taskService.suspend(parentTask.id);
+        assert.deepEqual([taskService.isRunning(parentTask.id), taskService.isRunning(childTask.id)], [false, true]);
         assert.doesNotThrow(function() {
-            taskService.continue(task1.id);
+            taskService.continue(parentTask.id);
         });
     });
 
     it("should run all active tasks", function() {
-        taskService.create(task1);
-        taskService.create(task2);
-        taskService.start(task1.id);
+        taskService.create(parentTask);
+        taskService.create(childTask);
+        taskService.start(parentTask.id);
         taskService.run();
         assert.equal(runCount, 1);
+    });
+
+    it("should be able to get a task by label", function() {
+        taskService.create(parentTask);
+        taskService.create(childTask);
+        assert.equal(taskService.getChild(parentTask.id, childTaskLabel), childTask);
     });
 });

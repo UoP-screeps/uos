@@ -21,6 +21,8 @@ export abstract class TaskService {
     abstract getByLabel<T extends TaskType>(label: string, parent?: string): Nullable<Task<T>>;
 
     abstract isRunning(id: string): boolean;
+
+    abstract getChild<T extends TaskType>(parent: string, label: string): Optional<Task<T>>;
     /**
      * only use in tests to reset the service
      */
@@ -105,6 +107,11 @@ class TaskServiceImpl extends TaskService {
         ObjectUtils.removeAll(this.taskIndex);
     }
 
+
+    getChild<T extends TaskType>(parent: string, label: string): Optional<Task<T>> {
+        throw Error();
+    }
+
     private addInternal(task: Task, state: TaskState): void {
         this.tasks[task.id] = { task, state };
         this.addToIndex(task);
@@ -112,7 +119,7 @@ class TaskServiceImpl extends TaskService {
 
     private addToIndex(task: Task): void {
         const label = task.label;
-        const parentIndex = TaskServiceImpl.getParentIndex(task.parent);
+        const parentIndex = TaskServiceImpl.getParentIndex(task.parentId);
         const index = this.taskIndex;
         const parentObj = index[parentIndex] = index[parentIndex] || {};
         if(label) {
@@ -135,7 +142,7 @@ class TaskServiceImpl extends TaskService {
 
     private removeFromIndex(task: Task): void {
         const label = task.label;
-        const parentIndex = TaskServiceImpl.getParentIndex(task.parent);
+        const parentIndex = TaskServiceImpl.getParentIndex(task.parentId);
         const index = this.taskIndex;
         const parentObj = index[parentIndex];
         if(!parentObj) {

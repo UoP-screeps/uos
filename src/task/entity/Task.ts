@@ -8,7 +8,7 @@ export abstract class Task<T extends TaskType = TaskType> {
 
     private readonly _label?: string;
 
-    private readonly _parent?: string;
+    private readonly _parentId?: string;
 
     abstract get type(): T;
 
@@ -17,7 +17,7 @@ export abstract class Task<T extends TaskType = TaskType> {
     constructor(opt?: { label?: string; parent?: string }) {
         this._id = makeId();
         this._label = opt?.label;
-        this._parent = opt?.parent;
+        this._parentId = opt?.parent;
         this.taskService = Container.get(TaskService);
     }
 
@@ -29,8 +29,15 @@ export abstract class Task<T extends TaskType = TaskType> {
         return this._label;
     }
 
-    get parent(): Optional<string> {
-        return this._parent;
+    get parentId(): Optional<string> {
+        return this._parentId;
+    }
+
+    get parent(): Nullable<Task> {
+        if(this.parentId) {
+            return this.taskService.getById(this.parentId);
+        }
+        return undefined;
     }
 
     start(): void {
@@ -54,8 +61,28 @@ export abstract class Task<T extends TaskType = TaskType> {
     isRunning(): boolean {
         return this.taskService.isRunning(this.id);
     }
+
+    create<U extends TaskType>(type: U, label?: string): Task {
+        throw Error();
+    }
+
+    getChild<U extends TaskType>(label: string): Task<U> | undefined {
+        throw Error();
+    }
+
+    emit(eventName: string): void {
+        throw Error();
+    }
+
+    listen(task: Task): TaskEventListener {
+        throw Error();
+    }
 }
 
 export interface TaskConstructor<T extends TaskType = TaskType> extends Constructor<Task<T>> {
     new (opt?: { label?: string; parent?: string }): Task<T>;
+}
+
+export interface TaskEventListener {
+    on(eventType: string, callback: () => void): void;
 }

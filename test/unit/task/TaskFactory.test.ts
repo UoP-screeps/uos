@@ -47,7 +47,7 @@ describe("TaskFactory", function() {
             parent, label
         });
         assert.include(task, {
-            parent: parent,
+            parentId: parent,
             label: label,
             type: TaskType.TEST_TASK
         });
