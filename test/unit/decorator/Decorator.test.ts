@@ -2,7 +2,7 @@ import { Container, Inject, OnlyInstantiableByContainer } from "typescript-ioc";
 import { assert } from "chai";
 
 describe("decorator", () => {
-    it("should inject a class", function() {
+    it("should inject a class", function () {
         abstract class Interface {
             abstract getValue(): number;
         }
@@ -36,7 +36,8 @@ describe("decorator", () => {
             }
         }
 
-        Container.configure({ bind: Interface, to: Implementation },
+        Container.configure(
+            { bind: Interface, to: Implementation },
             { bind: ConstructorInjection },
             { bind: FieldInjection }
         );
@@ -48,6 +49,5 @@ describe("decorator", () => {
         assert.equal(c.getValue(), 1);
 
         assert.equal(d.getValue(), 1);
-
     });
 });
