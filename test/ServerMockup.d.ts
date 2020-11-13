@@ -13,7 +13,7 @@ declare interface StdHooks {
 }
 
 declare interface MockedServerConstructor {
-    new(opts?: Partial<MockServerOptions>): MockedServer;
+    new (opts?: Partial<MockServerOptions>): MockedServer;
 }
 
 declare class MockedServer {
@@ -89,7 +89,18 @@ declare class MockedWorld {
     /**
      Add a new user to the world
      */
-    addBot({ username, room, x, y, gcl, cpu, cpuAvailable, active, spawnName, modules }: AddBotOptions): Promise<MockedUser>;
+    addBot({
+        username,
+        room,
+        x,
+        y,
+        gcl,
+        cpu,
+        cpuAvailable,
+        active,
+        spawnName,
+        modules
+    }: AddBotOptions): Promise<MockedUser>;
     private updateEnvTerrain;
 }
 
@@ -106,7 +117,7 @@ interface AddBotOptions {
     modules?: {};
 }
 
-type MockedTerrainType = 'plain' | 'wall' | 'swamp';
+type MockedTerrainType = "plain" | "wall" | "swamp";
 
 declare class MockedTerrainMatrix {
     private data;
@@ -144,10 +155,13 @@ declare class MockedUser {
     /**
      Constructor
      */
-    constructor(server: MockedServer, data: {
-        _id: string;
-        username: string;
-    });
+    constructor(
+        server: MockedServer,
+        data: {
+            _id: string;
+            username: string;
+        }
+    );
     /**
      Getters
      */

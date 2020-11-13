@@ -9,35 +9,35 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 
 export default {
-  input: "test/integration/**/*.test.ts",
-  output: {
-    file: "dist/test-integration-all.bundle.js",
-    name: "lib",
-    sourcemap: true,
-    format: "iife",
-    globals: {
-      chai: "chai",
-      it: "it",
-      describe: "describe"
-    }
-  },
-  external: ["chai", "it", "describe"],
-  plugins: [
-    clear({ targets: ["dist/test-integration-all.bundle.js"] }),
-    resolve(),
-    commonjs({
-      include: /node_modules/,
-      namedExports: {
-        "node_modules/lodash/index.js": ["get", "set", "each"]
-      }
-    }),
-    typescript({ tsconfig: "./tsconfig.test-integration.json" }),
-    nodent(),
-    multiEntry(),
-    buble({
-      transforms: {
-        generator: false
-      }
-    })
-  ]
+    input: "test/integration/**/*.test.ts",
+    output: {
+        file: "dist/test-integration-all.bundle.js",
+        name: "lib",
+        sourcemap: true,
+        format: "iife",
+        globals: {
+            chai: "chai",
+            it: "it",
+            describe: "describe"
+        }
+    },
+    external: ["chai", "it", "describe"],
+    plugins: [
+        clear({ targets: ["dist/test-integration-all.bundle.js"] }),
+        resolve(),
+        commonjs({
+            include: /node_modules/,
+            namedExports: {
+                "node_modules/lodash/index.js": ["get", "set", "each"]
+            }
+        }),
+        typescript({ tsconfig: "./tsconfig.test-integration.json" }),
+        nodent(),
+        multiEntry(),
+        buble({
+            transforms: {
+                generator: false
+            }
+        })
+    ]
 };

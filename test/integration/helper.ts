@@ -8,11 +8,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 
-
 const ScreepsServerMockup = require("screeps-server-mockup");
 const ScreepsServer: MockedServerConstructor = ScreepsServerMockup.ScreepsServer;
 const stdHooks: StdHooks = ScreepsServerMockup.stdHooks;
-
 
 /*
  * Helper class for creating a ScreepsServer and resetting it between tests.

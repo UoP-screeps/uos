@@ -4,18 +4,18 @@ import { assert } from "chai";
 
 resetGameAndMemory();
 
-describe("ID", function() {
-    beforeEach(function() {
+describe("ID", function () {
+    beforeEach(function () {
         resetGameAndMemory();
     });
 
-    it("Should display correct id", function() {
+    it("Should display correct id", function () {
         const id1 = makeId();
         const id2 = makeId();
         assert.deepEqual([id1, id2], ["000-000-000", "000-000-001"]);
     });
 
-    it("Should never repeat", function() {
+    it("Should never repeat", function () {
         const set = new Set<string>();
         let repeated = false;
         for (let i = 0; i < 100000; i++) {
