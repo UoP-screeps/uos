@@ -4,7 +4,6 @@
 --ui bdd
 
 --reporter spec
---bail
 --full-trace
 --watch-extensions tsx,ts
 --colors
