@@ -2,8 +2,6 @@ import { TaskType } from "../TaskConstants";
 import { makeId } from "../../utils/Id";
 import { TaskService } from "../TaskService";
 import { Container } from "typescript-ioc";
-import TaskFactory from "../TaskFactory";
-
 
 /**
  * 一个抽象的任务类型，所有任务类型的定义都应该继承此类。
@@ -124,12 +122,10 @@ export abstract class Task<T extends TaskType = TaskType> {
      * @param eventName 事件的名称
      */
     emit(eventName: string): void {
-        if(this.listeners[eventName]) {
-            this.listeners[eventName].forEach(
-                callback => {
-                    callback();
-                }
-            );
+        if (this.listeners[eventName]) {
+            this.listeners[eventName].forEach((callback) => {
+                callback();
+            });
         }
     }
 

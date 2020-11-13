@@ -52,7 +52,7 @@ describe("Task", function () {
                 }
 
                 getByLabel<T extends TaskType>(label: string, parent?: string): Nullable<Task<T>> {
-                    if(label === task.label && parent === parentTask.id) {
+                    if (label === task.label && parent === parentTask.id) {
                         return task as Task<T>;
                     }
                     throw Error();
