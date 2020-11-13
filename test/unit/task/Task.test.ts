@@ -4,6 +4,7 @@ import { Container, Snapshot } from "typescript-ioc";
 import { TaskService } from "../../../src/task/TaskService";
 import { assert } from "chai";
 import { resetGameAndMemory } from "../../mock";
+import { TaskDef } from "../../../src/task/Decorator";
 
 describe("Task", function () {
     let snapshot: Snapshot;
@@ -150,22 +151,6 @@ describe("Task", function () {
     it("should continue correctly by calling continue service", function () {
         task.continue();
         assert.equal(called, calledConst.continue);
-    });
-
-    it("should create a child task", function () {
-        const childLabel = "child";
-        const childTask = task.create(TaskType.TEST_TASK, childLabel);
-        assert.include(
-            childTask,
-            {
-                parent: task,
-                parentId: task.id,
-                label: childLabel,
-                type: TaskType.TEST_TASK
-            },
-            "Incorrect childTask parameters"
-        );
-        assert.equal(called, calledConst.create);
     });
 
     it("should get a child by label", function () {

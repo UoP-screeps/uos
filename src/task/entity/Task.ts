@@ -2,6 +2,7 @@ import { TaskType } from "../TaskConstants";
 import { makeId } from "../../utils/Id";
 import { TaskService } from "../TaskService";
 import { Container } from "typescript-ioc";
+import TaskFactory from "../TaskFactory";
 
 
 /**
@@ -15,6 +16,10 @@ export abstract class Task<T extends TaskType = TaskType> {
     private readonly _label?: string;
 
     private readonly _parentId?: string;
+
+    private readonly listeners: {
+        [eventType: string]: (() => void)[];
+    };
 
     /**
      * 任务的类型
@@ -32,6 +37,7 @@ export abstract class Task<T extends TaskType = TaskType> {
         this._label = opt?.label;
         this._parentId = opt?.parent;
         this.taskService = Container.get(TaskService);
+        this.listeners = {};
     }
 
     /**
@@ -106,15 +112,6 @@ export abstract class Task<T extends TaskType = TaskType> {
     }
 
     /**
-     * 创建一个子任务
-     * @param type 子任务的类型
-     * @param label 子任务的标签
-     */
-    create<U extends TaskType>(type: U, label?: string): Task {
-        throw Error(); // TODO
-    }
-
-    /**
      * 通过标签获取一个子任务
      * @param label 子任务的标签
      */
@@ -127,7 +124,13 @@ export abstract class Task<T extends TaskType = TaskType> {
      * @param eventName 事件的名称
      */
     emit(eventName: string): void {
-        throw Error(); // TODO
+        if(this.listeners[eventName]) {
+            this.listeners[eventName].forEach(
+                callback => {
+                    callback();
+                }
+            );
+        }
     }
 
     /**
@@ -156,7 +159,13 @@ export abstract class Task<T extends TaskType = TaskType> {
      * @return TaskEventListener 一个对象，用于设定监听到不同事件的反应。
      */
     listen(task: Task): TaskEventListener {
-        throw Error(); // TODO
+        return {
+            on(eventType: string, callback: () => void): TaskEventListener {
+                task.listeners[eventType] = task.listeners[eventType] || [];
+                task.listeners[eventType].push(callback);
+                return this;
+            }
+        };
     }
 }
 
