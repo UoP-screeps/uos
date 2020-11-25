@@ -25,12 +25,6 @@ export abstract class Collection<T> {
     abstract getName(): string;
 
     /**
-     * get type of the collection
-     * @return type of collection
-     */
-    abstract getType(): Function;
-
-    /**
      * rename the collection
      * @param name new name for the collection
      * @throws Error if the collection name already exists
