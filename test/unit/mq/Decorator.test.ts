@@ -48,7 +48,7 @@ describe("Mq Decorator", function () {
                 return false;
             }
         }
-        assert.deepEqual(registered, {channel: channel, callback: T.consume});
+        assert.deepEqual(registered, { channel: channel, callback: T.consume });
     });
 
     it("should register channel only once on a new instance", function () {
@@ -60,6 +60,6 @@ describe("Mq Decorator", function () {
             }
         }
         const a = new T();
-        assert.deepEqual(registered, {channel: channel, callback: T.consume});
+        assert.deepEqual(registered, { channel: channel, callback: T.consume });
     });
 });

@@ -31,7 +31,7 @@ class MQServiceImpl extends MQService {
     }
 
     send(channel: string, message: string): void {
-        this.callbacks[channel]?.every(f => {
+        this.callbacks[channel]?.every((f) => {
             return !f(message);
         });
     }
