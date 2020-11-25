@@ -2,6 +2,7 @@ import { assert } from "chai";
 import { Container, Snapshot } from "typescript-ioc";
 import { MQService } from "../../../src/mq/MQService";
 import { Consume } from "../../../src/mq/Decorator";
+import { strict } from "assert";
 
 describe("Mq Decorator", function () {
     let snapshot: Snapshot;
@@ -30,6 +31,7 @@ describe("Mq Decorator", function () {
                 throw Error();
             }
         }
+        Container.bind(MQService).to(TestMQServiceImpl);
     });
     after(function () {
         snapshot.restore();
@@ -38,42 +40,26 @@ describe("Mq Decorator", function () {
     beforeEach(function () {
         registered = undefined;
     });
-    it("should not register on class declaration", function () {
+    it("should register on class declaration", function () {
         const channel = "channel";
         class T {
             @Consume(channel)
-            consume() {
-                return;
+            static consume() {
+                return false;
             }
         }
-        assert.isUndefined(registered);
+        assert.deepEqual(registered, {channel: channel, callback: T.consume});
     });
 
-    it("should register channel correctly on a new instance", function () {
+    it("should register channel only once on a new instance", function () {
         const channel = "channel";
         class T {
             @Consume(channel)
-            consume() {
-                return;
+            static consume() {
+                return false;
             }
         }
         const a = new T();
-        assert.equal(registered?.channel, channel);
-    });
-
-    it("should register callback correctly on a new instance", function () {
-        const channel = "channel";
-        let called: { obj: T; message: string }[] = [];
-        class T {
-            @Consume(channel)
-            consume(message: string) {
-                called.push({ obj: this, message: message });
-                return;
-            }
-        }
-        const a = new T();
-        const message = "message";
-        registered?.callback(message);
-        assert.deepEqual(called, [{ obj: a, message: message }]);
+        assert.deepEqual(registered, {channel: channel, callback: T.consume});
     });
 });
