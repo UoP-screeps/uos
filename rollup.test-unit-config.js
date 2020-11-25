@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 "use strict";
-import buble from "rollup-plugin-buble";
 import clear from "rollup-plugin-clear";
 import commonjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
@@ -31,7 +30,6 @@ export default {
             }
         }),
         typescript({ tsconfig: "./tsconfig.json" }),
-        multiEntry(),
-        buble()
+        multiEntry()
     ]
 };
