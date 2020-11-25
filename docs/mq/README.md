@@ -12,5 +12,21 @@ mq
 2. 消息接收方法。在构造对象的时候可以定义一个方法是接受到一个消息的回调。这个方法可以选择消费消息，也可以选择让消息继续发给下一个接受对象。
 3. 消息会立刻触发回调。
 
+使用：
+```ts
+class A {
+    @Consume("channel1") // 必须使用静态方法
+    static handle(message: string): boolean {
+        console.log(message);
+        return true;
+    }
+}
 
+class B {
+    mqService: MQService = Container.get(MQService);
+    someFunction() {
+        this.mqService.send("channel1", "Hello World!");
+    }
+}
+```
 

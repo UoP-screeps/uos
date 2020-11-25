@@ -123,4 +123,10 @@ describe("MQService", function () {
             [[message0], [message0], [message0], [message0]]
         );
     });
+
+    it("should not throw when sending to a channel with no registered", function () {
+        assert.doesNotThrow(function () {
+            mqService.send("notRegistered", message0);
+        });
+    });
 });
