@@ -1,0 +1,13 @@
+require:
+  - test/setup-node.js
+  - ts-node/register
+ui: bdd
+reporter: spec
+full-trace: true
+watch-extensions:
+  - tsx
+  - ts
+colors: true
+recursive: true
+timeout: 7200000
+exit: true
