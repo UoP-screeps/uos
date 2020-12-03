@@ -19,10 +19,14 @@ extends:
 
 rules:
   semi: "warn"
+  "@typescript-eslint/no-unused-vars":
+    - "warn"
+    - varsIgnorePattern: ([iI]gnored)|(_)
   "@typescript-eslint/interface-name-prefix": "off"
   "@typescript-eslint/no-use-before-define":
      - "error"
      - functions: false
        classes: false
        enums: false
+       typedefs: false
   no-console: "off"
