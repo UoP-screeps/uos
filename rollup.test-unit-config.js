@@ -24,10 +24,7 @@ export default {
         clear({ targets: ["dist/test-unit.bundle.js"] }),
         resolve(),
         commonjs({
-            include: /node_modules/,
-            namedExports: {
-                "node_modules/lodash/index.js": ["get", "set", "each"]
-            }
+            include: /node_modules/
         }),
         typescript({ tsconfig: "./tsconfig.json" }),
         multiEntry()
