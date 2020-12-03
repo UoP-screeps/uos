@@ -23,10 +23,5 @@ rules:
     - "warn"
     - varsIgnorePattern: ([iI]gnored)|(_)
   "@typescript-eslint/interface-name-prefix": "off"
-  "@typescript-eslint/no-use-before-define":
-     - "error"
-     - functions: false
-       classes: false
-       enums: false
-       typedefs: false
+  "@typescript-eslint/no-use-before-define": "off"
   no-console: "off"
