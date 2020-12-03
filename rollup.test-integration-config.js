@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 "use strict";
-import buble from "rollup-plugin-buble";
 import clear from "rollup-plugin-clear";
 import commonjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
@@ -26,18 +25,10 @@ export default {
         clear({ targets: ["dist/test-integration.bundle.js"] }),
         resolve(),
         commonjs({
-            include: /node_modules/,
-            namedExports: {
-                "node_modules/lodash/index.js": ["get", "set", "each"]
-            }
+            include: /node_modules/
         }),
         typescript({ tsconfig: "./tsconfig.test-integration.json" }),
         nodent(),
-        multiEntry(),
-        buble({
-            transforms: {
-                generator: false
-            }
-        })
+        multiEntry()
     ]
 };

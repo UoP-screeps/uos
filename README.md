@@ -10,3 +10,5 @@ UoP合作bot
 <https://github.com/UoP-screeps/uos/issues>
 
 以后可能开始用project来记录进度。
+
+[设计文档](docs/README.md)

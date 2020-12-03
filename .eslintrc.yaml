@@ -1,0 +1,28 @@
+root: true
+parser: "@typescript-eslint/parser"
+parserOptions:
+  project: ./tsconfig.json
+
+env:
+  node: true
+  mocha: true
+
+plugins:
+  - "@typescript-eslint"
+
+extends:
+  - "eslint:recommended"
+  - "plugin:@typescript-eslint/eslint-recommended"
+  - "plugin:@typescript-eslint/recommended"
+  - "prettier/@typescript-eslint"
+  - "plugin:@typescript-eslint/recommended-requiring-type-checking"
+
+rules:
+  semi: "warn"
+  "@typescript-eslint/interface-name-prefix": "off"
+  "@typescript-eslint/no-use-before-define":
+     - "error"
+     - functions: false
+       classes: false
+       enums: false
+  no-console: "off"
