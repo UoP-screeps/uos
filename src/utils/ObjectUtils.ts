@@ -2,7 +2,7 @@
 export default class ObjectUtils {
     static removeAll(obj: Record<string, any>): void {
         for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
                 delete obj[key];
             }
         }
