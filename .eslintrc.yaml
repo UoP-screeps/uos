@@ -19,9 +19,8 @@ extends:
 
 rules:
   semi: "warn"
-  "@typescript-eslint/no-unused-vars":
-    - "warn"
-    - varsIgnorePattern: ([iI]gnored)|(_)
+  "@typescript-eslint/no-unused-vars": "off"
+  "@typescript-eslint/no-unused-vars-experimental": "warn"
   "@typescript-eslint/interface-name-prefix": "off"
   "@typescript-eslint/no-use-before-define": "off"
   no-console: "off"
