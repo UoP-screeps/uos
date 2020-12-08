@@ -1,7 +1,7 @@
 // noinspection SpellCheckingInspection
 const range = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/".split("");
 const ID_LENGTH = 9;
-const BASE = 64;
+const BASE = range.length;
 const MAX_ID = Math.min(Math.pow(BASE, ID_LENGTH) - 1, Number.MAX_SAFE_INTEGER);
 
 export function makeId(): string {
@@ -17,7 +17,8 @@ function idToBase64Str(id: number): string {
     // use base64 conversion (Not standard base64)
     const idStringArray: string[] = new Array(ID_LENGTH).fill("0");
     for (let i = ID_LENGTH - 1; i >= 0 && id > 0; i--) {
-        idStringArray[i] = range[id % BASE];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        idStringArray[i] = range[id % BASE]!;
         id = Math.floor(id / BASE);
     }
     const processedArray = insertSeparators(idStringArray, 3, "-");

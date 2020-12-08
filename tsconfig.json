@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowJs": true,
+    "noUncheckedIndexedAccess": true,
     "typeRoots": ["node_modules/@types", "types"]
   },
   "exclude": [
