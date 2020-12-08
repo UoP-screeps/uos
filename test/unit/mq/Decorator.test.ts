@@ -2,7 +2,6 @@ import { assert } from "chai";
 import { Container, Snapshot } from "typescript-ioc";
 import { MQService } from "../../../src/mq/MQService";
 import { Consume } from "../../../src/mq/Decorator";
-import { strict } from "assert";
 
 describe("Mq Decorator", function () {
     let snapshot: Snapshot;
@@ -13,6 +12,7 @@ describe("Mq Decorator", function () {
 
     before(function () {
         snapshot = Container.snapshot();
+
         // create service class
         class TestMQServiceImpl extends MQService {
             broadcast(): void {
@@ -31,6 +31,7 @@ describe("Mq Decorator", function () {
                 throw Error();
             }
         }
+
         Container.bind(MQService).to(TestMQServiceImpl);
     });
     after(function () {
@@ -42,24 +43,28 @@ describe("Mq Decorator", function () {
     });
     it("should register on class declaration", function () {
         const channel = "channel";
+
         class T {
             @Consume(channel)
             static consume() {
                 return false;
             }
         }
+
         assert.deepEqual(registered, { channel: channel, callback: T.consume });
     });
 
     it("should register channel only once on a new instance", function () {
         const channel = "channel";
+
         class T {
             @Consume(channel)
             static consume() {
                 return false;
             }
         }
-        const a = new T();
+
+        new T();
         assert.deepEqual(registered, { channel: channel, callback: T.consume });
     });
 });
