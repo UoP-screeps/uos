@@ -3,7 +3,7 @@ import { Container } from "typescript-ioc";
 export abstract class MQService {
     /**
      * 注册一个回调函数。如果需要直接使用这个方法，需要手动在global reset之后重新注册。
-     * 回调函数应该返回true / false，表示是否消费该事件。
+     * 回调函数应该返回true / false，表示是否消费该事件。如果没有被消费，而且是一对一发送事件，会被发送给其他的对象。
      * @param channel 注册的频道
      * @param callback 注册的回调函数
      */
@@ -55,8 +55,8 @@ class MQServiceImpl extends MQService {
     }
 
     send(channel: string, message: string): void {
-        this.callbacks[channel]?.every((f) => {
-            return !f(message);
+        this.callbacks[channel]?.some((f) => {
+            return f(message);
         });
     }
 }
