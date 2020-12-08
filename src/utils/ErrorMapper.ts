@@ -28,7 +28,8 @@ export class ErrorMapper {
     public static sourceMappedStackTrace(error: Error | string): string {
         const stack: string = error instanceof Error ? (error.stack as string) : error;
         if (Object.prototype.hasOwnProperty.call(this.cache, stack)) {
-            return this.cache[stack];
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return this.cache[stack]!;
         }
 
         const re = /^\s+at\s+(.+?\s+)?\(?([0-z._\-\\/]+):(\d+):(\d+)\)?$/gm;
@@ -38,8 +39,10 @@ export class ErrorMapper {
         while ((match = re.exec(stack))) {
             if (match[2] === "main") {
                 const pos = this.consumer.originalPositionFor({
-                    column: parseInt(match[4], 10),
-                    line: parseInt(match[3], 10)
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    column: parseInt(match[4]!, 10),
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    line: parseInt(match[3]!, 10)
                 });
 
                 if (pos.line != null) {
@@ -77,10 +80,10 @@ export class ErrorMapper {
                     if ("sim" in Game.rooms) {
                         const message = `Source maps don't work in the simulator - displaying original error`;
                         /* eslint-disable-next-line no-console */
-                        console.log(`<span style='color:red'>${message}<br>${_.escape(e.stack)}</span>`);
+                        console.log(`<span style="color:red">${message}<br>${_.escape(e.stack)}</span>`);
                     } else {
                         /* eslint-disable-next-line no-console */
-                        console.log(`<span style='color:red'>${_.escape(this.sourceMappedStackTrace(e))}</span>`);
+                        console.log(`<span style="color:red">${_.escape(this.sourceMappedStackTrace(e))}</span>`);
                     }
                 } else {
                     // can't handle it
