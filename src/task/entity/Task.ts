@@ -122,8 +122,9 @@ export abstract class Task<T extends TaskType = TaskType> {
      * @param eventName 事件的名称
      */
     emit(eventName: string): void {
-        if (this.listeners[eventName]) {
-            this.listeners[eventName].forEach((callback) => {
+        const callbacks = this.listeners[eventName];
+        if (callbacks) {
+            callbacks.forEach((callback) => {
                 callback();
             });
         }
@@ -157,8 +158,8 @@ export abstract class Task<T extends TaskType = TaskType> {
     listen(task: Task): TaskEventListener {
         return {
             on(eventType: string, callback: () => void): TaskEventListener {
-                task.listeners[eventType] = task.listeners[eventType] || [];
-                task.listeners[eventType].push(callback);
+                task.listeners[eventType] ??= [];
+                task.listeners[eventType]?.push(callback);
                 return this;
             }
         };

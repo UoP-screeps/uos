@@ -165,11 +165,12 @@ class TaskServiceImpl extends TaskService {
     }
 
     private removeInternal(id: string): void {
-        if (!(id in this.tasks)) {
+        const task = this.tasks[id];
+        if (task == null) {
             throw Error(`Task ${id} not found!`);
         }
 
-        this.removeFromIndex(this.tasks[id].task);
+        this.removeFromIndex(task.task);
 
         delete this.tasks[id];
     }
@@ -211,10 +212,11 @@ class TaskServiceImpl extends TaskService {
     }
 
     private changeState(id: string, state: TaskState): void {
-        if (!(id in this.tasks)) {
+        const task = this.tasks[id];
+        if (task == null) {
             throw Error(`Task ${id} not found!`);
         }
-        this.tasks[id].state = state;
+        task.state = state;
     }
 
     private static getParentIndex(parent: Nullable<string>): string | typeof TaskServiceImpl.ROOT_KEY {
