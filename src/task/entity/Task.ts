@@ -15,10 +15,6 @@ export abstract class Task<T extends TaskType = TaskType> {
 
     private readonly _parentId?: string;
 
-    private readonly listeners: {
-        [eventType: string]: (() => void)[];
-    };
-
     /**
      * 任务的类型
      */
@@ -35,7 +31,6 @@ export abstract class Task<T extends TaskType = TaskType> {
         this._label = opt?.label;
         this._parentId = opt?.parent;
         this.taskService = Container.get(TaskService);
-        this.listeners = {};
     }
 
     /**
@@ -82,6 +77,17 @@ export abstract class Task<T extends TaskType = TaskType> {
     abstract run(): void;
 
     /**
+     * 创建子任务
+     * @param taskType 子任务的类型
+     * @param label 子任务的标签
+     */
+    create<U extends TaskType>(taskType: TaskConstructor<U>, label?: string): Task<U> {
+        const task = new taskType({ label: label, parent: this.id });
+        this.taskService.create(task);
+        return task;
+    }
+
+    /**
      * 结束任务
      */
     terminate(): void {
@@ -116,60 +122,8 @@ export abstract class Task<T extends TaskType = TaskType> {
     getChild<U extends TaskType>(label: string): Nullable<Task<U>> {
         return this.taskService.getByLabel<U>(label, this.id);
     }
-
-    /**
-     * 发送事件
-     * @param eventName 事件的名称
-     */
-    emit(eventName: string): void {
-        const callbacks = this.listeners[eventName];
-        if (callbacks) {
-            callbacks.forEach((callback) => {
-                callback();
-            });
-        }
-    }
-
-    /**
-     * 监听一个任务发送的事件。
-     *      例如：
-     *
-     *      ```
-     *      this.listen(otherTask).on("event", () => {
-     *          console.log("event!");
-     *      });
-     *      ```
-     *
-     *      如果多次给同一个事件名称增加callback，会覆盖旧的旧的callback。
-     *
-     *      例如:
-     *      ```
-     *      const listener = this.listen(otherTask);
-     *      listener.on("e", () => {
-     *          console.log("1");
-     *      }).on("e", () => {
-     *          console.log("2");
-     *      });
-     *      ```
-     * 如果 otherTask 有一个"e"事件，只会打印"2"。
-     * @param task 需要监听的任务
-     * @return TaskEventListener 一个对象，用于设定监听到不同事件的反应。
-     */
-    listen(task: Task): TaskEventListener {
-        return {
-            on(eventType: string, callback: () => void): TaskEventListener {
-                task.listeners[eventType] ??= [];
-                task.listeners[eventType]?.push(callback);
-                return this;
-            }
-        };
-    }
 }
 
 export interface TaskConstructor<T extends TaskType = TaskType> extends Constructor<Task<T>> {
     new (opt?: { label?: string; parent?: string }): Task<T>;
-}
-
-export interface TaskEventListener {
-    on(eventType: string, callback: () => void): TaskEventListener;
 }

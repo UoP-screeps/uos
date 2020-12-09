@@ -4,7 +4,6 @@ import { Container, Snapshot } from "typescript-ioc";
 import { TaskService } from "../../../src/task/TaskService";
 import { assert } from "chai";
 import { resetGameAndMemory } from "../../mock";
-import { TaskDef } from "../../../src/task/Decorator";
 
 describe("Task", function () {
     let snapshot: Snapshot;
@@ -13,6 +12,7 @@ describe("Task", function () {
     const label = "label";
     let task: Task<TaskType.TEST_TASK>;
     let parentTask: Task<TaskType.TEST_TASK>;
+    let created: Optional<Task>;
     const calledConst = {
         continue: "continue",
         isRunning: "isRunning",
@@ -23,7 +23,8 @@ describe("Task", function () {
     };
 
     before(function () {
-        snapshot = Container.snapshot(); // save current container state
+        // prepare to inject test dependency
+        snapshot = Container.snapshot();
 
         // make sure memory is initialized
         resetGameAndMemory();
@@ -39,6 +40,7 @@ describe("Task", function () {
 
                 create(task: Task): void {
                     called = calledConst.create;
+                    created = task;
                 }
 
                 getById(id: string): Nullable<Task> {
@@ -110,14 +112,15 @@ describe("Task", function () {
 
     beforeEach(function () {
         called = "";
+        created = undefined;
     });
 
     after(function () {
-        snapshot.restore(); // restore container
+        snapshot.restore(); // discard test dependency
     });
 
     it("should have an id", function () {
-        assert.exists(task.id);
+        assert.isDefined(task.id);
     });
 
     it("should have correct parent", function () {
@@ -157,13 +160,21 @@ describe("Task", function () {
         assert.equal(parentTask.getChild(label), task);
     });
 
-    it("should be able to communicate by events", function () {
-        const eventType = "event";
-        let called = false;
-        task.listen(parentTask).on(eventType, () => {
-            called = true;
+    it("should create a child task", function () {
+        class TestTask extends Task<TaskType.TEST_TASK> {
+            run(): void {}
+
+            get type(): TaskType.TEST_TASK {
+                return TaskType.TEST_TASK;
+            }
+        }
+
+        const createdTask = task.create(TestTask, label);
+        assert.isDefined(createdTask);
+        assert.equal(created, createdTask);
+        assert.include(createdTask, {
+            parent: task,
+            label: label
         });
-        parentTask.emit(eventType);
-        assert.isTrue(called);
     });
 });

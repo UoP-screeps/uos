@@ -6,11 +6,15 @@ import TaskFactory from "./TaskFactory";
 
 @Singleton
 export default class TaskController {
-    @Inject
-    private taskService!: TaskService;
+    private taskService: TaskService;
 
-    @Inject
-    private taskFactory!: TaskFactory;
+    private taskFactory: TaskFactory;
+
+    // noinspection JSUnusedGlobalSymbols
+    constructor(@Inject taskService: TaskService, @Inject taskFactory: TaskFactory) {
+        this.taskService = taskService;
+        this.taskFactory = taskFactory;
+    }
 
     /**
      * 创建一个任务

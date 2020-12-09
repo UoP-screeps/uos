@@ -155,7 +155,7 @@ class TaskServiceImpl extends TaskService {
         const label = task.label;
         const parentIndex = TaskServiceImpl.getParentIndex(task.parentId);
         const index = this.taskIndex;
-        const parentObj = (index[parentIndex] = index[parentIndex] || {});
+        const parentObj = (index[parentIndex] ??= {});
         if (label) {
             parentObj[label] = task.id;
         } else {

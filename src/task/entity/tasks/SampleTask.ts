@@ -1,6 +1,6 @@
-import { Task } from "../Task";
 import { TaskType } from "../../TaskConstants";
 import { TaskDef } from "../../Decorator";
+import { Task } from "../Task";
 
 @TaskDef
 export class SampleTask extends Task<TaskType.SAMPLE_TASK> {
