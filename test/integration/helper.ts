@@ -37,6 +37,8 @@ export class IntegrationTestHelper {
     async beforeEach() {
         this._server = new ScreepsServer();
 
+        process.env.DRIVER_MODULE = process.cwd() + "/lib/driver/index";
+
         await this.server.world.reset();
 
         // Start server

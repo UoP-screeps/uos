@@ -37,6 +37,8 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-multi-entry": "^4.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@screeps/common": "^2.15.0",
+    "@screeps/engine": "^4.2.3",
     "@types/chai": "^4.2.14",
     "@types/lodash": "3.10.2",
     "@types/mocha": "^8.0.4",
@@ -44,7 +46,6 @@
     "@types/screeps": "^3.1.0",
     "@types/sinon": "^9.0.9",
     "@types/sinon-chai": "^3.2.0",
-    "@screeps/common": "^2.15.0",
     "chai": "^4.2.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
@@ -68,6 +69,7 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
+    "@screeps/driver": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^4.9.0",
     "reflect-metadata": "^0.1.13",
