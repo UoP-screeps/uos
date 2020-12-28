@@ -11,6 +11,7 @@ describe("Task", function () {
     let parent: string;
     const label = "label";
     let task: Task<TaskType.TEST_TASK>;
+    let task2: Task<TaskType.TEST_TASK>;
     let parentTask: Task<TaskType.TEST_TASK>;
     let created: Optional<Task>;
     const calledConst = {
@@ -108,6 +109,13 @@ describe("Task", function () {
                 return TaskType.TEST_TASK;
             }
         })({ label, parent });
+        task2 = new (class extends Task<TaskType.TEST_TASK> {
+            run(): void {}
+
+            get type(): TaskType.TEST_TASK {
+                return TaskType.TEST_TASK;
+            }
+        })({ label });
     });
 
     beforeEach(function () {
@@ -123,8 +131,16 @@ describe("Task", function () {
         assert.isDefined(task.id);
     });
 
-    it("should have correct parent", function () {
+    it("should have correct parent id", function () {
         assert.equal(task.parentId, parent);
+    });
+
+    it("should return correct parent", function () {
+        assert.equal(task.parent, parentTask);
+    });
+
+    it("should return correct parent if there is no parent", function () {
+        assert.isUndefined(task2.parent);
     });
 
     it("should have correct label", function () {

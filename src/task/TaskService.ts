@@ -159,7 +159,7 @@ class TaskServiceImpl extends TaskService {
         if (label) {
             parentObj[label] = task.id;
         } else {
-            const taskTable = (parentObj[TaskServiceImpl.NO_LABEL] = parentObj[TaskServiceImpl.NO_LABEL] || {});
+            const taskTable = (parentObj[TaskServiceImpl.NO_LABEL] ??= {});
             taskTable[task.id] = true;
         }
     }
@@ -180,6 +180,7 @@ class TaskServiceImpl extends TaskService {
         const parentIndex = TaskServiceImpl.getParentIndex(task.parentId);
         const index = this.taskIndex;
         const parentObj = index[parentIndex];
+        /* istanbul ignore if: should never happen */
         if (!parentObj) {
             return;
         }
@@ -190,6 +191,7 @@ class TaskServiceImpl extends TaskService {
             }
         } else {
             const taskTable = parentObj[TaskServiceImpl.NO_LABEL];
+            /* istanbul ignore if: should never happen */
             if (!taskTable) {
                 return;
             }
@@ -200,9 +202,8 @@ class TaskServiceImpl extends TaskService {
         }
     }
 
-    private getChildren(parentId?: string): string[] {
-        const parentKey = parentId || TaskServiceImpl.ROOT_KEY;
-        const list = this.taskIndex[parentKey];
+    private getChildren(parentId: string): string[] {
+        const list = this.taskIndex[parentId];
         if (!list) {
             return [];
         }

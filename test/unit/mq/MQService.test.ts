@@ -13,6 +13,7 @@ describe("MQService", function () {
     let mqService: MQService;
     const channel0 = "channel0";
     const channel1 = "channel1";
+    const unregisteredChannel = "unregistered";
     const message0 = "message0";
     const message1 = "message1";
     before(function () {
@@ -126,7 +127,13 @@ describe("MQService", function () {
 
     it("should not throw when sending to a channel with no registered", function () {
         assert.doesNotThrow(function () {
-            mqService.send("notRegistered", message0);
+            mqService.send(unregisteredChannel, message0);
+        });
+    });
+
+    it("should not throw when broadcasting to a channel with no registered", function () {
+        assert.doesNotThrow(function () {
+            mqService.broadcast(unregisteredChannel, message0);
         });
     });
 });

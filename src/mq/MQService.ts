@@ -46,8 +46,8 @@ class MQServiceImpl extends MQService {
     }
 
     register(channel: string, callback: (message: string) => boolean): void {
-        this.callbacks[channel] = this.callbacks[channel] || [];
-        this.callbacks[channel]?.push(callback);
+        const callbacks = this.callbacks[channel] ??= [];
+        callbacks.push(callback);
     }
 
     reset(): void {

@@ -95,4 +95,7 @@ $RECYCLE.BIN/
 .grunt-options.json
 
 /src/game-redef/FunctionWrapper.ts
+
+# nyc files
 /.nyc_output/
+/coverage/

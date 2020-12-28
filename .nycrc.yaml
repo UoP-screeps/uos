@@ -1,1 +1,31 @@
 exclude-after-remap: false
+include:
+  - "src/**/*.ts"
+exclude:
+  - "src/main.ts"   # Cannot be tested by unit tests
+reporter:
+  - lcov
+  - text
+all: true
+
+# coverage thresholds
+check-coverage: true
+branches: 90
+lines: 90
+functions: 95
+statements: 90
+per-file: true
+
+watermarks:
+  lines:
+    - 90
+    - 100
+  functions:
+    - 95
+    - 100
+  branches:
+    - 90
+    - 100
+  statements:
+    - 90
+    - 100

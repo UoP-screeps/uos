@@ -7,21 +7,20 @@
   "scripts": {
     "lint": "eslint ./src/** --ext .js,.ts,.jsx,.tsx",
     "build": "rollup -c",
-    "build-unit-test": "rollup -c rollup.test-unit-config.js",
-    "build-integration-test": "rollup -c rollup.test-integration-config.js",
     "push-main": "rollup -c --environment DEST:main",
     "push-pserver": "rollup -c --environment DEST:pserver",
     "push-sim": "rollup -c --environment DEST:sim",
     "push-ptr": "rollup -c && grunt",
     "check": "npm run lint && npm run test",
-    "test": "npm run test-unit && npm run test-integration-all ",
-    "test-unit": "rollup -c rollup.test-unit-config.js && mocha dist/test-unit.bundle.js",
-    "test-integration": "npm run build && rollup -c rollup.test-integration-config.js && mocha dist/test-integration.bundle.js",
-    "test-integration-all": "npm run build && rollup -c rollup.test-integration-all-config.js && mocha dist/test-integration-all.bundle.js",
+    "test": "npm run coverage-unit && npm run test-integration-all",
+    "test-unit": "mocha test/unit/**/*.test.ts",
+    "test-integration": "npm run build && mocha test/integration/integration.test.ts",
+    "test-integration-all": "npm run build && mocha test/integration/**/*.test.ts",
     "watch-main": "rollup -cw --environment DEST:main",
     "watch-pserver": "rollup -cw --environment DEST:pserver",
     "watch-sim": "rollup -cw --environment DEST:sim",
-    "watch-ptr": "rollup -cw --environment DEST:ptr"
+    "watch-ptr": "rollup -cw --environment DEST:ptr",
+    "coverage-unit": "nyc npm run test-unit"
   },
   "repository": {
     "type": "git",
