@@ -7,3 +7,22 @@ type AnyArgs = any[];
 interface Memory {
     id?: number;
 }
+
+type DbItem<T> = {
+    dbid: string;
+} & T
+
+type Pos = {
+    roomName: string;
+    x: number;
+    y: number;
+}
+
+type Request<S=undefined, F=undefined> = {
+    success: true;
+    data: S;
+} | {
+    success: false;
+    data: F;
+}
+

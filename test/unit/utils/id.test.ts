@@ -1,12 +1,12 @@
-import { Game, Memory, resetGameAndMemory } from "../../mock";
+import { Game, Memory, reset } from "../../mock/mock";
 import { makeId } from "../../../src/utils/Id";
 import { assert } from "chai";
 
-resetGameAndMemory();
+reset();
 
 describe("ID", function () {
     beforeEach(function () {
-        resetGameAndMemory();
+        reset();
     });
 
     it("Should display correct id", function () {

@@ -3,7 +3,7 @@ import { TaskType } from "../../../src/task/TaskConstants";
 import { Container, Snapshot } from "typescript-ioc";
 import { TaskService } from "../../../src/task/TaskService";
 import { assert } from "chai";
-import { resetGameAndMemory } from "../../mock";
+import { reset } from "../../mock/mock";
 
 describe("Task", function () {
     let snapshot: Snapshot;
@@ -28,7 +28,7 @@ describe("Task", function () {
         snapshot = Container.snapshot();
 
         // make sure memory is initialized
-        resetGameAndMemory();
+        reset();
 
         // inject test service implementation
         Container.bind(TaskService).to(
