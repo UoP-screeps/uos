@@ -50,6 +50,12 @@ export class IntegrationTestHelper {
     before() {
         stdHooks.hookWrite();
     }
+
+    async tickAndGetNotifications(): Promise<string[]> {
+        await this.server.tick();
+        const notifications = await this.player.newNotifications;
+        return notifications.map(v => v.message);
+    }
 }
 
 export const helper = new IntegrationTestHelper();
