@@ -14,6 +14,9 @@ type DbItem<T> = {
 
 type Pos = {
     roomName: string;
+} & RoomPos;
+
+type RoomPos = {
     x: number;
     y: number;
 }
